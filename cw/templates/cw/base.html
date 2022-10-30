@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <title>CourseWork</title>
+    <link rel="stylesheet" href='{% static "cw/styles.css" %}' />
+</head>
+<body>
+    <div id="wrapper">
+        <header id="menu">
+            <a id="logo">GitGud</a>
+            <input type="text" id="search" placeholder="Search" onkeydown="search(this)"></input>
+            <div id="menu-right">
+                <a id="goto-login">Login</a>
+                <a id="goto-reg">Register</a>
+            </div>
+        </header>
+        {% block content %}
+        {% endblock %}
+        <footer id="footer">Підготував студент групи ІТ-03 Федяй Борислав</footer>
+    </div>
+</body>
+<script type="text/javascript" src='{% static "cw/base.js" %}'></script>
+</html>
