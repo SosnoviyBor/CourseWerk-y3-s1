@@ -1,0 +1,9 @@
+{% extends 'cw/base.html' %}
+{% block content %}
+Register
+<form method="post" action="/register/">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Register</button>
+</form>
+{% endblock %}
