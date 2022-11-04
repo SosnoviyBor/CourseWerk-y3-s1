@@ -7,6 +7,13 @@ from .models import *
 
 def home(response):
     pages = Page.objects
+    if action := response.GET.get("action"):
+        if action == "search":
+            query = response.GET.get("value")
+            queries = [query.lower(), query.title(), query.upper()]
+            pages = pages.filter(head__in=queries)
+        else:
+            print("Recieved GET request with no 'action' param")
     return render(response, "cw/home.html", {"pages":pages})
 
 def register(response):
@@ -22,3 +29,7 @@ def register(response):
     else:
         form = Register()
     return render(response, "cw/register.html", {"form":form})
+
+def page(response, id):
+    page = Page.objects.get(id=id)
+    return render(response, "cw/page.html", {"page": page})

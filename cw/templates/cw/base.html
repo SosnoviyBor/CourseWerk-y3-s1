@@ -13,7 +13,7 @@
             <input type="text" id="search" placeholder="Search" onkeydown="search(this)"></input>
             <div id="menu-right">
                 <a id="goto-login">Login</a>
-                <a id="goto-reg" onclick="redirect('cw/register.html')">Register</a>
+                <a id="goto-reg">Register</a>
             </div>
         </header>
         {% block content %}
@@ -22,4 +22,5 @@
     </div>
 </body>
 <script type="text/javascript" src='{% static "cw/base.js" %}'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </html>
