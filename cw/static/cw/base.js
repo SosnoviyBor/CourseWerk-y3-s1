@@ -1,6 +1,7 @@
-HOST = "http://127.0.0.1:8000/"
+const HOST = "http://127.0.0.1:8000/"
 
-var search = document.getElementById("search")
+// Функціонал пошуку
+const search = document.getElementById("search")
 search.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         event.preventDefault()  // Блокуємо звичайну поведінку натиснутої клавіші

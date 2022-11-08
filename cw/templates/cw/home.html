@@ -6,12 +6,12 @@
 <content id="item-list">
     <ul>
     {% for page in pages.all %}
-        <li class="item" id="{{ page.id }}">
+        <div class="item" id="{{ page.id }}">
             <a class="item-name", href="/page/{{ page.id }}">{{ page.head }}</a>
             <a class="item-desc">{{ page.desc }}</a>
             <img class="item-img" src="{{ page.img }}">
             <a class="item-author">{{ page.author }}</a>
-        </li>
+        </div>
     {% endfor %}
     </ul>
 </content>

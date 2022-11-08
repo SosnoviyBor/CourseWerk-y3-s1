@@ -1,8 +1,10 @@
 {% extends 'cw/base.html' %}
 {% load crispy_forms_tags %}
 
+{% block title %}Регістрація{% endblock %}
+
 {% block content %}
-Register
+<p>Register</p>
 <form method="post" action="", class="form-group">
     {% csrf_token %}
     {{ form|crispy }}

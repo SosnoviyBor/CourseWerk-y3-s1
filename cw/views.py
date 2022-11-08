@@ -8,9 +8,11 @@ def home(req):
     pages = Page.objects
     if "action" in req.GET:
         action = req.GET.get("action")
+        # Фільтрація за пошуком
         if action == "search":
             query = req.GET.get("value")
             pages = pages.filter(head__icontains=query)
+        # Отримали GET запит, але якийсь помилковий
         else:
             print("Recieved GET request with no 'action' param")
     return render(req, "cw/home.html", {"pages":pages})
@@ -21,26 +23,20 @@ def about(req):
 def register(req):
     if req.method == "POST":
         form = RegisterForm(req.POST)
+        # Користувач намагається зареєструватись
         if form.is_valid():
+            # Він зміг!
             form.save()
-        return redirect("..")
+            return redirect("..")
     else:
+        # Генерація пустої форми для реєстрації
         form = RegisterForm()
     return render(req, "cw/register.html", {"form":form})
-
-# def login(req):
-#     if req.method == "POST":
-#         form = Login(req.POST)
-#         if form.is_valid():
-#             data = form.cleaned_data
-#             # user = User(email=data["email"],
-#             #             login=data["login"],
-#             #             password=data["password"])
-#         return HttpResponseRedirect("..")
-#     else:
-#         form = Login()
-#     return render(req, "cw/login.html", {"form":form})
 
 def page(req, id):
     page = Page.objects.get(id=id)
     return render(req, "cw/page.html", {"page": page})
+
+def profile(req):
+    folders = Folder.objects.filter(user=req.user.id)
+    return render(req, "cw/profile.html", {"folders":folders})

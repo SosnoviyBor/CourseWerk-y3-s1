@@ -1,0 +1,87 @@
+{% extends 'cw/base.html' %}
+{% load static %}
+
+
+{% block title %}
+{% if user.is_authenticated %} Профіль {{user.username}}
+{% else %} Недоступна сторінка
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+
+{% comment %} Варіант сторінки для залогінених користувачів {% endcomment %}
+<p><h2>{{user.username}}</h2></p>
+<select id="display-items">
+    <option value="active">Активні</option>
+    <option value="planned">Заплановані</option>
+    <option value="done">Пройдені</option>
+</select>
+{% comment %} За раз буде відображатися лише 1 div з цих трьох {% endcomment %}
+{% comment %} По дефолту початковий стан - це "Активні теми" {% endcomment %}
+<div id="item-lists">
+    <div class="item-list" id="active">
+        <p>Активні теми</p>
+        {% for folder in folder.all %}
+            {% if page.status == 0 %}
+                <div class="item" id="{{ page.id }}">
+                    <a class="item-name", href="/page/{{ page.id }}">{{ page.head }}</a>
+                    <a class="item-desc">{{ page.desc }}</a>
+                    <img class="item-img" src="{{ page.img }}">
+                    <a class="item-author">{{ page.author }}</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="item-list" id="planned">
+        <p>Заплановані теми</p>
+        {% for folder in folder.all %}
+            {% if page.status == 1 %}
+                <div class="item" id="{{ page.id }}">
+                    <a class="item-name", href="/page/{{ page.id }}">{{ page.head }}</a>
+                    <a class="item-desc">{{ page.desc }}</a>
+                    <img class="item-img" src="{{ page.img }}">
+                    <a class="item-author">{{ page.author }}</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="item-list" id="done">
+        <p>Пройдені теми</p>
+        {% for folder in folder.all %}
+            {% if page.status == 2 %}
+                <div class="item" id="{{ page.id }}">
+                    <a class="item-name", href="/page/{{ page.id }}">{{ page.head }}</a>
+                    <a class="item-desc">{{ page.desc }}</a>
+                    <img class="item-img" src="{{ page.img }}">
+                    <a class="item-author">{{ page.author }}</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<br>
+<br>
+<a href="/logout/">Розлогінитись</a>
+
+{% else %}
+
+{% comment %} Варіант сторінки для незалогінених користувачів {% endcomment %}
+<p>Для перегляду цієї сторінки вам спочатку треба
+    <a href="/login/">залогінитись</a> або 
+    <a href="/register/">зареэструватись</a>
+</p>
+
+{% endif %}
+{% endblock %}
+
+
+{% block custom_static %}
+{% if user.is_authenticated %}
+
+<script type="text/javascript" src='{% static "cw/profile.js" %}'></script>
+
+{% endif %}
+{% endblock custom_static %}

@@ -23,7 +23,7 @@ class PageRelation(models.Model):
 class Folder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
-    status = models.IntegerField()
+    status = models.IntegerField()  # 0 - активні, 1 - плани, 2 - пройдені
 
     class Meta:
         unique_together = [["user", "page"]]
