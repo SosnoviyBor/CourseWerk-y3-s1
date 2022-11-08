@@ -1,10 +1,13 @@
 {% extends 'cw/base.html' %}
+
+{% block title %}{{ page.head }}{% endblock %}
+
 {% block content %}
 <content id="page">
     <h1 class="item-name">{{ page.head }}</h1>
     <h3 class="item-desc">{{ page.desc }}</h3>
-    <a class="item-data">Sample data</a>
+    <a class="item-data">{{ page.data }}</a>
     <br>
-    <a class="item-author">Author: {{ page.author }}</a>
+    <a class="item-author"><i>Author: {{ page.author }}</i></a>
 </content>
 {% endblock %}

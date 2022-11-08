@@ -17,6 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    # Додаємо до проекту адміністраторський дешборд для управління підключенною БД
     path('admin/', admin.site.urls),
-    path("", include("cw.urls"))
+    # Додаємо до проекту сторінки застосунку "cw"
+    # Темплейти сторінок зберігаються у "./templates/cw"
+    path("", include("cw.urls")),
+    # Додаємо до проекту вбудовані сторінки для регістрації, логіну та всякого такого
+    # Темплейти сторінок зберігаються у "./templates/registration"
+    path("", include("django.contrib.auth.urls")),
 ]

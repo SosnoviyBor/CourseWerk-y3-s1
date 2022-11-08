@@ -1,13 +1,10 @@
 HOST = "http://127.0.0.1:8000/"
 
-document.getElementById("logo").href = HOST
-document.getElementById("goto-login").href = `${HOST}login`
-document.getElementById("goto-reg").href = `${HOST}register`
-
 var search = document.getElementById("search")
 search.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
-        event.preventDefault()
+        event.preventDefault()  // Блокуємо звичайну поведінку натиснутої клавіші
+        // Формуємо GET запит та відправляємо на вьюху, що прив'язана до "HOST/" сторінки
         $.ajax({
             url: HOST,
             type: "GET",

@@ -1,21 +1,14 @@
-from enum import unique
 from django.db import models
+from django.contrib.auth.models import User
 from datetime import date
 
 # Create your models here.
-class User(models.Model):
-    email = models.EmailField(unique=True)
-    login = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=50)
-
-    def __str__(self) -> str:
-        result = f"{self.email}, {self.login}, {self.password}"
-        return result
 
 class Page(models.Model):
     head = models.TextField()
     desc = models.TextField()
     img = models.TextField(blank=False)
+    data = models.TextField()
     author = models.CharField(max_length=100)
     date_created = models.DateField(default=date.today)
 
