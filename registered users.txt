@@ -1,0 +1,10 @@
+## admin ##
+username: boryaxta
+password: gfhjkm
+
+## normal users ##
+username: one
+password:
+
+username: two
+password:

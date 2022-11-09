@@ -1,4 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from .forms import *
 from .models import *
 
@@ -6,15 +8,17 @@ from .models import *
 
 def home(req):
     pages = Page.objects
-    if "action" in req.GET:
-        action = req.GET.get("action")
-        # Фільтрація за пошуком
-        if action == "search":
-            query = req.GET.get("value")
-            pages = pages.filter(head__icontains=query)
-        # Отримали GET запит, але якийсь помилковий
-        else:
-            print("Recieved GET request with no 'action' param")
+    # if "action" in req.GET:
+    #     action = req.GET.get("action")
+    #     # Фільтрація за пошуком
+    #     if action == "search":
+    #         query = req.GET.get("value")
+    #         pages = pages.filter(head__icontains=query)
+    #     # Отримали GET запит, але якийсь помилковий
+    #     else:
+    #         print("Home view; Recieved GET request with no 'action' param")
+    # TODO Додати до веб-сторінки та контексту статуси сторінок
+    # folders = Folder.objects.filter(page=pages)
     return render(req, "cw/home.html", {"pages":pages})
 
 def about(req):
@@ -33,9 +37,35 @@ def register(req):
         form = RegisterForm()
     return render(req, "cw/register.html", {"form":form})
 
+@csrf_exempt
 def page(req, id):
     page = Page.objects.get(id=id)
-    return render(req, "cw/page.html", {"page": page})
+    if req.method == "POST":
+        action = req.POST.get("action")
+        # Користувач намагається змінити категорію теми
+        if action == "setfolder" and req.user.is_authenticated:
+            status = req.POST.get("value")
+            # Видалення об'єкту
+            if status == "none":
+                Folder.objects.filter(user=req.user, page=page).delete()
+            # Оновлення або створення об'єкту
+            else:
+                # obj - об'єкт, що був створений/оновлений
+                # created - True якщо створений, False якщо оновлений
+                obj, created = Folder.objects.update_or_create(
+                    user=req.user, page=page,
+                    defaults={"status":status}
+                )
+            return HttpResponse(req)
+        else:
+            print("Page view; Recieved POST request with no 'action' param")
+
+    # Отримання статусу для відображення на сторінці
+    if Folder.objects.filter(user=req.user, page=page).exists():
+        status = Folder.objects.get(user=req.user, page=page).status
+    else:
+        status = "none"
+    return render(req, "cw/page.html", {"page":page, "status":status})
 
 def profile(req):
     folders = Folder.objects.filter(user=req.user.id)
