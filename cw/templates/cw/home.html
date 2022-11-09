@@ -1,18 +1,31 @@
 {% extends 'cw/base.html' %}
+{% load static %}
 
 {% block title %}GitGud{% endblock %}
 
+{% block search %}
+<input type="text" id="search" name="search" placeholder="Search"></input>
+{% endblock  %}
+
 {% block content %}
 <content id="item-list">
-    <ul>
     {% for page in pages.all %}
-        <div class="item" id="{{ page.id }}">
-            <a class="item-name", href="/page/{{ page.id }}">{{ page.head }}</a>
-            <a class="item-desc">{{ page.desc }}</a>
-            <img class="item-img" src="{{ page.img }}">
-            <a class="item-author">{{ page.author }}</a>
-        </div>
+    <div class="item" id="{{ page.id }}">
+        <p class="item-name"><a href="/page/{{ page.id }}">{{ page.head }}</a></p>
+        <p class="item-desc">{{ page.desc }}</p>
+        {% comment %} {% if user.is_authenticated %}
+
+        {% csrf_token %}
+        <p class="item-status-{{ status }}">{{ status }}</p>
+
+        {% endif %} {% endcomment %}
+        <img class="item-img" src="{{ page.img }}">
+        <p class="item-author">{{ page.author }}</p>
+    </div>
     {% endfor %}
-    </ul>
 </content>
+{% endblock %}
+
+{% block custom_static %}
+<script type="text/javascript" src='{% static "cw/home.js" %}'></script>
 {% endblock %}

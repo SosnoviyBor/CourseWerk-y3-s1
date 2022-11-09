@@ -18,7 +18,7 @@
 <body>
     {% comment %} Бокове меню навігації {% endcomment %}
     <div id="sidenav">
-        <input type="text" id="search" name="search" placeholder="Search"></input>
+        {% block search %}{% endblock  %}
         <a href="/">Home</a>
         <a href="/about/">About</a>
         <br>
