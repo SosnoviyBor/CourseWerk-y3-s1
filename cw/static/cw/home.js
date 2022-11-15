@@ -48,23 +48,5 @@ search.addEventListener("keypress", function(event) {
                 document.getElementById("item-list").appendChild(result[i])
             }
         }
-
-
-        //  Збережено на випадок, якщо треба буде робити пошук через бекенд
-        // Формуємо GET запит та відправляємо на вьюху, що прив'язана до "HOST/" сторінки
-        // TODO Після першого визову обнулює фільтри
-        // Насправді, досить погано процює
-        // $.ajax({
-        //     url: `${host}search/`,
-        //     type: "GET",
-        //     data: {
-        //         "action": "search",
-        //         "value": search.value
-        //     },
-        //     success: (data)=>{
-        //         window.location.href = host
-        //         document.write(data)
-        //     }
-        // })
     }
 })

@@ -24,39 +24,39 @@
 <div id="item-lists">
     <div class="item-list" id="active">
         <p>Активні теми</p>
-        {% for folder in folder.all %}
-            {% if page.status == 0 %}
+        {% for folder in folders.all %}
+            {% if folder.status == 0 %}
                 <div class="item" id="{{ page.id }}">
-                    <a class="item-name", href="/page/{{ page.id }}">{{ page.head }}</a>
-                    <a class="item-desc">{{ page.desc }}</a>
-                    <img class="item-img" src="{{ page.img }}">
-                    <a class="item-author">{{ page.author }}</a>
+                    <a class="item-name", href="/page/{{ folder.page.id }}">{{ folder.page.head }}</a>
+                    <a class="item-desc">{{ folder.page.desc }}</a>
+                    <img class="item-img" src="{{ folder.page.img }}">
+                    <a class="item-author">{{ folder.page.author }}</a>
                 </div>
             {% endif %}
         {% endfor %}
     </div>
     <div class="item-list" id="planned">
         <p>Заплановані теми</p>
-        {% for folder in folder.all %}
-            {% if page.status == 1 %}
+        {% for folder in folders.all %}
+            {% if folder.status == 1 %}
                 <div class="item" id="{{ page.id }}">
-                    <a class="item-name", href="/page/{{ page.id }}">{{ page.head }}</a>
-                    <a class="item-desc">{{ page.desc }}</a>
-                    <img class="item-img" src="{{ page.img }}">
-                    <a class="item-author">{{ page.author }}</a>
+                    <a class="item-name", href="/page/{{ folder.page.id }}">{{ folder.page.head }}</a>
+                    <a class="item-desc">{{ folder.page.desc }}</a>
+                    <img class="item-img" src="{{ folder.page.img }}">
+                    <a class="item-author">{{ folder.page.author }}</a>
                 </div>
             {% endif %}
         {% endfor %}
     </div>
     <div class="item-list" id="done">
         <p>Пройдені теми</p>
-        {% for folder in folder.all %}
-            {% if page.status == 2 %}
-                <div class="item" id="{{ page.id }}">
-                    <a class="item-name", href="/page/{{ page.id }}">{{ page.head }}</a>
-                    <a class="item-desc">{{ page.desc }}</a>
-                    <img class="item-img" src="{{ page.img }}">
-                    <a class="item-author">{{ page.author }}</a>
+        {% for folder in folders.all %}
+            {% if folder.status == 2 %}
+                <div class="item" id="{{ folder.page.id }}">
+                    <a class="item-name", href="/page/{{ page.id }}">{{ folder.page.head }}</a>
+                    <a class="item-desc">{{ folder.page.desc }}</a>
+                    <img class="item-img" src="{{ folder.page.img }}">
+                    <a class="item-author">{{ folder.page.author }}</a>
                 </div>
             {% endif %}
         {% endfor %}
@@ -70,7 +70,7 @@
 
 {% comment %} Варіант сторінки для незалогінених користувачів {% endcomment %}
 <p>Для перегляду цієї сторінки вам спочатку треба
-    <a href="/login/">залогінитись</a> або 
+    <a href="/login/">залогінитись</a> або
     <a href="/register/">зареэструватись</a>
 </p>
 
