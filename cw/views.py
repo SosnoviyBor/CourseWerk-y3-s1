@@ -1,25 +1,23 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from .consts import *
 from .forms import *
 from .models import *
 
 # Create your views here.
 
 def home(req):
-    pages = Page.objects
-    # if "action" in req.GET:
-    #     action = req.GET.get("action")
-    #     # Фільтрація за пошуком
-    #     if action == "search":
-    #         query = req.GET.get("value")
-    #         pages = pages.filter(head__icontains=query)
-    #     # Отримали GET запит, але якийсь помилковий
-    #     else:
-    #         print("Home view; Recieved GET request with no 'action' param")
-    # TODO Додати до веб-сторінки та контексту статуси сторінок
-    # folders = Folder.objects.filter(page=pages)
-    return render(req, "cw/home.html", {"pages":pages})
+    pages = Page.objects.all()
+    folders = Folder.objects
+    ctx = []
+    for page in pages:
+        try:
+            status_id = folders.filter(user=req.user).get(page=page).status
+        except:
+            status_id = None
+        ctx.append((page, status_id, STATUS_TEXT[status_id]))
+    return render(req, "cw/home.html", {"ctx":ctx})
 
 def about(req):
     return render(req, "cw/about.html", {})

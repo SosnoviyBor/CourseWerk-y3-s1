@@ -9,16 +9,16 @@
 
 {% block content %}
 <content id="item-list">
-    {% for page in pages.all %}
+    {% for page, status_id, status in ctx %}
     <div class="item" id="{{ page.id }}">
         <p class="item-name"><a href="/page/{{ page.id }}">{{ page.head }}</a></p>
         <p class="item-desc">{{ page.desc }}</p>
-        {% comment %} {% if user.is_authenticated %}
+        {% if user.is_authenticated and status_id != None %}
 
         {% csrf_token %}
-        <p class="item-status-{{ status }}">{{ status }}</p>
+        <p class="item-status-{{ status_id }}">{{ status }}</p>
 
-        {% endif %} {% endcomment %}
+        {% endif %}
         <img class="item-img" src="{{ page.img }}">
         <p class="item-author">{{ page.author }}</p>
     </div>

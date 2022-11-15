@@ -41,7 +41,6 @@
 
 .item {
     max-width: 200px;
-    max-height: 200px;
     margin: 50px;
 }
 
@@ -54,4 +53,16 @@
 .item-img {
     max-width: 200px;
     max-height: 200px;
+}
+
+.item-status-0 {
+    color: goldenrod;
+}
+
+.item-status-1 {
+    color: lightblue;
+}
+
+.item-status-2 {
+    color: greenyellow;
 }
