@@ -8,7 +8,7 @@
 {% endblock  %}
 
 {% block content %}
-<content id="card-list">
+<content class="card-list">
     {% for page, status_id, status in ctx %}
 
     <div class="card card-status-{{ status_id }}" id="{{ page.id }}">

@@ -61,10 +61,10 @@ def page(req, id):
             print("Page view; Recieved POST request with no 'action' param")
 
     # Отримання статусу для відображення на сторінці
-    if Folder.objects.filter(user=req.user, page=page).exists():
+    status = None
+    if (req.user.is_authenticated and
+            Folder.objects.filter(user=req.user, page=page).exists()):
         status = Folder.objects.get(user=req.user, page=page).status
-    else:
-        status = "none"
     return render(req, "cw/page.html", {"page":page, "status":status})
 
 def profile(req):

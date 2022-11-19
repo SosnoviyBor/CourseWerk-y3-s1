@@ -13,58 +13,82 @@
 {% if user.is_authenticated %}
 
 {% comment %} Варіант сторінки для залогінених користувачів {% endcomment %}
-<p><h2>{{user.username}}</h2></p>
-<select id="display-items">
-    <option value="active">Активні</option>
-    <option value="planned">Заплановані</option>
-    <option value="done">Пройдені</option>
-</select>
+<h2 id="username">{{user.username}}</h2>
+{% comment %} Кнопки для перегляду різних папок {% endcomment %}
+<div class="list-group list-group-horizontal" id="list-group-profile">
+    <button type="button" class="list-group-item list-group-item-action flex-fill active"
+    id="active" aria-current="true" onclick="pick(this)">
+        Активні теми
+        <span class="badge badge-light rounded-pill"></span>
+    </button>
+    <button type="button" class="list-group-item list-group-item-action flex-fill"
+    id="planned" aria-current="true" onclick="pick(this)">
+        Заплановані теми
+        <span class="badge badge-primary rounded-pill"></span>
+    </button>
+    <button type="button" class="list-group-item list-group-item-action flex-fill"
+    id="done" aria-current="true" onclick="pick(this)">
+        Пройдені теми
+        <span class="badge badge-primary rounded-pill"></span>
+    </button>
+</div>
+
 {% comment %} За раз буде відображатися лише 1 div з цих трьох {% endcomment %}
 {% comment %} По дефолту початковий стан - це "Активні теми" {% endcomment %}
-<div id="item-lists">
-    <div class="item-list" id="active">
-        <p>Активні теми</p>
-        {% for folder in folders.all %}
-            {% if folder.status == 0 %}
-                <div class="item" id="{{ page.id }}">
-                    <a class="item-name", href="/page/{{ folder.page.id }}">{{ folder.page.head }}</a>
-                    <a class="item-desc">{{ folder.page.desc }}</a>
-                    <img class="item-img" src="{{ folder.page.img }}">
-                    <a class="item-author">{{ folder.page.author }}</a>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
-    <div class="item-list" id="planned">
-        <p>Заплановані теми</p>
-        {% for folder in folders.all %}
-            {% if folder.status == 1 %}
-                <div class="item" id="{{ page.id }}">
-                    <a class="item-name", href="/page/{{ folder.page.id }}">{{ folder.page.head }}</a>
-                    <a class="item-desc">{{ folder.page.desc }}</a>
-                    <img class="item-img" src="{{ folder.page.img }}">
-                    <a class="item-author">{{ folder.page.author }}</a>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
-    <div class="item-list" id="done">
-        <p>Пройдені теми</p>
-        {% for folder in folders.all %}
-            {% if folder.status == 2 %}
-                <div class="item" id="{{ folder.page.id }}">
-                    <a class="item-name", href="/page/{{ page.id }}">{{ folder.page.head }}</a>
-                    <a class="item-desc">{{ folder.page.desc }}</a>
-                    <img class="item-img" src="{{ folder.page.img }}">
-                    <a class="item-author">{{ folder.page.author }}</a>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+<div class="card-list" id="active">
+    {% for folder in folders.all %}
+        {% if folder.status == 0 %}
+
+        <div class="card card-status-{{ folder.status }}" id="{{ folder.page.id }}">
+            <img src="{{ folder.page.img }}" class="card-img-top" alt="{{ folder.page.id }}">
+            <div class="card-body">
+                <h5 class="card-title"><b>{{ folder.page.head }}</b></h5>
+                <h6 class="card-subtitle sub-status-{{ folder.status }}">
+                    <b>Активно</b>
+                </h6>
+                <p class="card-text">{{ folder.page.desc }}</p>
+            </div>
+        </div>
+
+        {% endif %}
+    {% endfor %}
 </div>
-<br>
-<br>
-<a href="/logout/">Розлогінитись</a>
+<div class="card-list" id="planned">
+    {% for folder in folders.all %}
+        {% if folder.status == 1 %}
+
+        <div class="card card-status-{{ folder.status }}" id="{{ folder.page.id }}">
+            <img src="{{ folder.page.img }}" class="card-img-top" alt="{{ folder.page.id }}">
+            <div class="card-body">
+                <h5 class="card-title"><b>{{ folder.page.head }}</b></h5>
+                <h6 class="card-subtitle sub-status-{{ folder.status }}">
+                    <b>Заплановано</b>
+                </h6>
+                <p class="card-text">{{ folder.page.desc }}</p>
+            </div>
+        </div>
+
+        {% endif %}
+    {% endfor %}
+</div>
+<div class="card-list" id="done">
+    {% for folder in folders.all %}
+        {% if folder.status == 2 %}
+
+        <div class="card card-status-{{ folder.status }}" id="{{ folder.page.id }}">
+            <img src="{{ folder.page.img }}" class="card-img-top" alt="{{ folder.page.id }}">
+            <div class="card-body">
+                <h5 class="card-title"><b>{{ folder.page.head }}</b></h5>
+                <h6 class="card-subtitle sub-status-{{ folder.status }}">
+                    <b>Пройдено</b>
+                </h6>
+                <p class="card-text">{{ folder.page.desc }}</p>
+            </div>
+        </div>
+
+        {% endif %}
+    {% endfor %}
+</div>
 
 {% else %}
 
@@ -82,6 +106,7 @@
 {% if user.is_authenticated %}
 
 <script type="text/javascript" src='{% static "cw/profile.js" %}'></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
 
 {% endif %}
 {% endblock custom_static %}

@@ -1,20 +1,37 @@
 // Створення POST запиту для зміни категорії нинішньої сторінки
-const pickFolder = document.getElementById("pick-folder")
-pickFolder.addEventListener("change", (event)=>{
+const allLgi = document.getElementsByClassName("list-group-item")
+const statusIds = {
+    "none": "none",
+    "active": "0",
+    "planned": "1",
+    "done": "2"
+}
+
+// Вибір активної папки на сторінці
+Array.from(allLgi).forEach((lgi) => {
+    const currActive = document.getElementsByClassName("list-group")[0].dataset.active
+    if (currActive === statusIds[lgi.id]) {
+        lgi.classList.add("active")
+    }
+})
+
+function pick(item) {
+    // Оновлення зовнішнього виду кнопок
+    Array.from(allLgi).forEach((lgi) => {
+        if (lgi === item) {
+            lgi.classList.add("active")
+        } else {
+            lgi.classList.remove("active")
+        }
+    })
+
+    // Створення POST запиту для зміни категорії нинішньої сторінки
     $.ajax({
         url: window.location.href,
         type: "POST",
         data: {
             "action": "setfolder",
-            "value": event.target.value,
+            "value": statusIds[item.id],
         }
     })
-})
-
-// Виставлення активної категорії
-for (var i = 0; i < pickFolder.children.length; i++) {
-    if (pickFolder.children[i].value === s) {
-        pickFolder.children[i].selected = true
-        break
-    }
 }

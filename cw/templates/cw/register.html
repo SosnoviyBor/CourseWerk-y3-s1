@@ -4,8 +4,7 @@
 {% block title %}Регістрація{% endblock %}
 
 {% block content %}
-<p>Register</p>
-<form method="post" action="", class="form-group">
+<form method="post" action="", class="form-group", id="register">
     {% csrf_token %}
     {{ form|crispy }}
     <button type="submit" class="btn btn-success">Register</button>

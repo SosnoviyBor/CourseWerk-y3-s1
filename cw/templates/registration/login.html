@@ -4,7 +4,7 @@
 {% block title %}Логін{% endblock %}
 
 {% block content %}
-<form method="POST" class="form-group">
+<form method="POST" class="form-group" id="login">
     {% csrf_token %}
     {{ form|crispy }}
     <button type="submit" class="btn btn-success">Залогінитись</button>

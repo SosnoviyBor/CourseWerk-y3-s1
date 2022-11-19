@@ -1,17 +1,13 @@
 #wrapper {
+    padding: 10px;
     display: flex;
     flex-direction: column;
 }
 
-.item {
-    border-width: 2px;
-    border-color: #111;
-    max-width: 200px;
-    margin: 50px;
-    margin-top: 10px;
-}
 
-#card-list {
+/* ########## Card styles ########## */
+
+.card-list {
     flex: 1;
     align-self: center;
     width: 70%;
@@ -24,7 +20,6 @@ div.card {
     position:relative;
     transition: transform .2s;
     border-radius: 7px;
-    margin: 10px;
     margin-top: 10%;
     cursor: pointer;
 }
@@ -41,8 +36,8 @@ div.card:hover{
 }
 
 .card-status-1:hover {
-    border-color: lightblue;
-    box-shadow: 0 0 10px lightblue;
+    border-color: cornflowerblue;
+    box-shadow: 0 0 10px cornflowerblue;
 }
 
 .card-status-2:hover {
@@ -69,7 +64,7 @@ h5.card-title, h6.card-subtitle, p.card-text {
 }
 
 .sub-status-1 {
-    color: lightblue;
+    color:cornflowerblue;
 }
 
 .sub-status-2 {
@@ -83,4 +78,51 @@ p.card-text {
     -webkit-box-orient: vertical;
     overflow: hidden;
     user-select: none;
+}
+
+
+/* ########## Folder buttons, username and itemname ########## */
+
+#list-group-profile, #username, #item-name {
+    width:33.3%;
+    text-align:center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ########## Page page layout ########## */
+
+#page {
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+#list-group-page {
+    width:50%;
+    text-align:center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ########## About page layout ########## */
+
+#about {
+    text-align:center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ########## About page layout ########## */
+
+#register {
+    padding-left: 30%;
+    padding-right: 30%;
+}
+
+#login {
+    padding-left: 40%;
+    padding-right: 40%;
 }
