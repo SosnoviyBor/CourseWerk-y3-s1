@@ -7,7 +7,7 @@ from datetime import date
 class Page(models.Model):
     head = models.TextField()
     desc = models.TextField()
-    img = models.TextField(blank=False)
+    img = models.TextField(blank=False) # Зображення має бути щонайменш 300 пікселів у висоту
     data = models.TextField()
     author = models.CharField(max_length=100)
     date_created = models.DateField(default=date.today)
