@@ -9,6 +9,8 @@ from .models import *
 
 def home(req):
     pages = Page.objects.all()
+    if query := req.GET.get("search"):
+        pages = pages.filter(head__icontains=query, desc__icontains=query)
     folders = Folder.objects
     ctx = []
     for page in pages:
