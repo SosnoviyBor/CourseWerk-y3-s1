@@ -4,24 +4,27 @@
 {% block title %}GitGud{% endblock %}
 
 {% block search %}
-<input type="text" id="search" name="search" placeholder="Search"></input>
+<input type="text" id="search" name="search" placeholder="Пошук"></input>
 {% endblock  %}
 
 {% block content %}
-<content id="item-list">
+<content id="card-list">
     {% for page, status_id, status in ctx %}
-    <div class="item" id="{{ page.id }}">
-        <p class="item-name"><a href="/page/{{ page.id }}">{{ page.head }}</a></p>
-        <p class="item-desc">{{ page.desc }}</p>
-        {% if user.is_authenticated and status_id != None %}
 
-        {% csrf_token %}
-        <p class="item-status-{{ status_id }}">{{ status }}</p>
-
-        {% endif %}
-        <img class="item-img" src="{{ page.img }}">
-        <p class="item-author">{{ page.author }}</p>
+    <div class="card card-status-{{ status_id }}" id="{{ page.id }}">
+        <img src="{{ page.img }}" class="card-img-top" alt="{{ page.id }}">
+        <div class="card-body">
+            <h5 class="card-title"><b>{{ page.head }}</b></h5>
+            {% if user.is_authenticated and status_id != None %}
+                {% csrf_token %}
+                <h6 class="card-subtitle sub-status-{{ status_id }}">
+                    <b>{{ status }}</b>
+                </h6>
+            {% endif %}
+            <p class="card-text">{{ page.desc }}</p>
+        </div>
     </div>
+
     {% endfor %}
 </content>
 {% endblock %}

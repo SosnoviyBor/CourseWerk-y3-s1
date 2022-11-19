@@ -16,20 +16,32 @@
 </head>
 
 <body>
-    {% comment %} Бокове меню навігації {% endcomment %}
-    <div id="sidenav">
-        {% block search %}{% endblock  %}
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <br>
-        {% if user.is_authenticated %}
-            <a>Welcome, {{user.username}}</a>
-            <a href="/profile/">Profile</a>
-        {% else %}
-            <a href="/login/">Login</a>
-            <a href="/register/">Register</a>
-        {% endif %}
-    </div>
+    {% comment %} Меню навігації {% endcomment %}
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">GitGud</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/about/">Про сайт</a>
+                </div>
+            </div>
+            <form class="d-flex" role="search" action="/">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <a class="nav-link" href="/profile/">{{user.username}}</a>
+                {% else %}
+                    <a class="nav-link" href="/login/">Логін</a>
+                    <a class="nav-link" href="/register/">Реєстрація</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
 
     <div id="wrapper">
         {% comment %} Блок для контенту сторінки {% endcomment %}

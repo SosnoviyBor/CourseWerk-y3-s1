@@ -1,68 +1,86 @@
-#sidenav {
-    height:100%;
-    width:160px;
-    position: fixed;
-    z-index:1;
-    top:0;
-    left:0;
-    background-color:#111;
-    overflow-x: hidden;
-    padding-top:20px;
-}
-
-#sidenav a {
-    padding:6px 8px 6px 16px;
-    text-decoration: none;
-    font-size:25px;
-    color: #818181;
-    display:block;
-}
-
-#sidenav a:hover{
-    color:#f1f1f1;
-}
-
-#search {
-    margin: 6px;
-    margin-left: 12px;
-    padding: 5px;
-    font-size: 20px;
-    width: 120px;
-}
-
-
-
 #wrapper {
-    margin-left:160px;
-    padding: 0px 10px;
     display: flex;
     flex-direction: column;
 }
 
 .item {
+    border-width: 2px;
+    border-color: #111;
     max-width: 200px;
     margin: 50px;
+    margin-top: 10px;
 }
 
-#item-list {
+#card-list {
     flex: 1;
     align-self: center;
     width: 70%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-.item-img {
-    max-width: 200px;
-    max-height: 200px;
+div.card {
+    width: 18rem;
+    position:relative;
+    transition: transform .2s;
+    border-radius: 7px;
+    margin: 10px;
+    margin-top: 10%;
+    cursor: pointer;
 }
 
-.item-status-0 {
+div.card:hover{
+    z-index: 1;
+    transform: scale(1.05);
+    outline: none;
+}
+
+.card-status-0:hover {
+    border-color: goldenrod;
+    box-shadow: 0 0 10px goldenrod;
+}
+
+.card-status-1:hover {
+    border-color: lightblue;
+    box-shadow: 0 0 10px lightblue;
+}
+
+.card-status-2:hover {
+    border-color: green;
+    box-shadow: 0 0 10px green;
+}
+
+.card-status-None:hover {
+    border-color: grey;
+    box-shadow: 0 0 5px grey;
+}
+
+img.card-img-top {
+    max-height: 300px;
+    padding: 5%;
+}
+
+h5.card-title, h6.card-subtitle, p.card-text {
+    user-select: none;
+}
+
+.sub-status-0 {
     color: goldenrod;
 }
 
-.item-status-1 {
+.sub-status-1 {
     color: lightblue;
 }
 
-.item-status-2 {
-    color: greenyellow;
+.sub-status-2 {
+    color: green;
+}
+
+p.card-text {
+    display: -webkit-box;
+    height: 150px;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    user-select: none;
 }
