@@ -1,0 +1,20 @@
+{% extends 'cw/base.html' %}
+{% load static %}
+
+{% block title %}Мої рекомендації{% endblock %}
+
+{% block content %}
+<h1 class="title">Рекомендації</h1>
+<p>{{ msg }}</p>
+<content class="card-list">
+    {% for page, status_id, status in cards %}
+
+    {% include "cw/card_template.html" %}
+
+    {% endfor %}
+</content>
+{% endblock %}
+
+{% block custom_static %}
+<script type="text/javascript" src='{% static "cw/card.js" %}'></script>
+{% endblock  %}

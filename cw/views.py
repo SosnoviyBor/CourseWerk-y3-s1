@@ -22,7 +22,8 @@ def about(req):
     return render(req, "cw/about.html", {})
 
 def suggestions(req):
-    return render(req, "cw/suggestions.html", {})
+    cards = cards_ctx(req, Page.objects.all())
+    return render(req, "cw/suggestions.html", {"cards":cards})
 
 def register(req):
     if req.method == "POST":
