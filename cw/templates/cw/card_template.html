@@ -3,6 +3,9 @@
 Для роботи цього темплейту, треба передати до сторінки результат функції card_ctx() та пропарсити її наступним чином:
 {% for page, status_id, status in cards %}
 
+Також, для коректної роботи переходу на сторінки карток, треба додати наступний скрипт до сторінки
+<script type="text/javascript" src='{% static "cw/card.js" %}'></script>
+
 {% endcomment %}
 
 <div class="card card-status-{{ status_id }}" id="{{ page.id }}">

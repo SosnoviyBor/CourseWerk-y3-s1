@@ -16,14 +16,6 @@ Array.from(allLgi).forEach((lgi) => {
 })
 
 Array.from(allCardLists).forEach((cl) => {
-    // Додаємо гіперсилку до кожної сторінки
-    Array.from(cl.getElementsByClassName("card")).forEach((card) => {
-        console.log(card)
-        card.addEventListener("click", () => {
-            window.location = `/page/${card.id}`
-        })
-    })
-
     // Видалення усіх списків окрім "активних", бо вони є дефолтним станом сторінки
     if (cl.id !== "active"){
         cl.remove()
