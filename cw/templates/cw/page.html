@@ -8,6 +8,8 @@
     <h1 class="title">{{ page.head }}</h1>
     {% if user.is_authenticated %}
 
+    {% comment %} Кнопки для зміни папки, в якій ця тема буде знаходитись {% endcomment %}
+    {% comment %} Звісно, це видно лише залогіненим користувачам {% endcomment %}
     {% csrf_token %}
     <div class="list-group list-group-horizontal" id="list-group-page"
         data-active="{{ status }}">

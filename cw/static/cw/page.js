@@ -1,5 +1,5 @@
 // Створення POST запиту для зміни категорії нинішньої сторінки
-const allLgi = document.getElementsByClassName("list-group-item")
+const allLgi = Array.from(document.getElementsByClassName("list-group-item"))
 const statusIds = {
     "none": "None",
     "active": "0",
@@ -8,7 +8,7 @@ const statusIds = {
 }
 
 // Вибір активної папки на сторінці
-Array.from(allLgi).forEach((lgi) => {
+allLgi.forEach((lgi) => {
     const currActive = document.getElementsByClassName("list-group")[0].dataset.active
     if (currActive === statusIds[lgi.id]) {
         lgi.classList.add("active")
@@ -18,7 +18,7 @@ Array.from(allLgi).forEach((lgi) => {
 
 function pick(item) {
     // Оновлення зовнішнього виду кнопок
-    Array.from(allLgi).forEach((lgi) => {
+    allLgi.forEach((lgi) => {
         if (lgi === item) {
             lgi.classList.add("active")
         } else {

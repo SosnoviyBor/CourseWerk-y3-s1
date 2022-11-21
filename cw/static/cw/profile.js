@@ -8,15 +8,15 @@ var cardLists = {
     "done": allCardLists[2],
 }
 
-// Вирахування кількості тем у кожній папці
-Array.from(allLgi).forEach((lgi) => {
+// Вирахування кількості тем у кожній папці та запис значення до "пігулки"
+allLgi.forEach((lgi) => {
     const type = lgi.id
     const amount = cardLists[type].getElementsByClassName("card").length
     lgi.getElementsByClassName("badge")[0].innerHTML = amount
 })
 
+// Видалення усіх списків окрім "активних", бо вони є дефолтним станом сторінки
 Array.from(allCardLists).forEach((cl) => {
-    // Видалення усіх списків окрім "активних", бо вони є дефолтним станом сторінки
     if (cl.id !== "active"){
         cl.remove()
     }

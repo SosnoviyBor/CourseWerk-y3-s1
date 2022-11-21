@@ -23,14 +23,14 @@ def about(req):
 
 def suggestions(req):
     cards = cards_ctx(req, Page.objects.all())
-    return render(req, "cw/suggestions.html", {"cards":cards})
+    msg = "r u logged in?"
+    return render(req, "cw/suggestions.html", {"cards":cards, "msg":msg})
 
 def register(req):
     if req.method == "POST":
         form = RegisterForm(req.POST)
-        # Користувач намагається зареєструватись
+        # Перевірка, чи точно це дані для реєстрації
         if form.is_valid():
-            # Він зміг!
             form.save()
             return redirect("..")
     else:
@@ -62,10 +62,11 @@ def page(req, id):
             print("Page view; Recieved POST request with no 'action' param")
 
     # Отримання статусу для відображення на сторінці
-    status = None
-    if (req.user.is_authenticated and
-            Folder.objects.filter(user=req.user, page=page).exists()):
+    if (req.user.is_authenticated and Folder.objects.filter(user=req.user, page=page).exists()):
+        # Користувач зареєстрований ТА вже виставив статус цієї сторінки
         status = Folder.objects.get(user=req.user, page=page).status
+    else:
+        status = None
     return render(req, "cw/page.html", {"page":page, "status":status})
 
 def profile(req):
