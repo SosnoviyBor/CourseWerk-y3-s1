@@ -17,6 +17,7 @@
 
 div.card {
     width: 18rem;
+    height: 535px;
     position:relative;
     transition: transform .2s;
     border-radius: 7px;
@@ -50,9 +51,16 @@ div.card:hover{
     box-shadow: 0 0 5px grey;
 }
 
-img.card-img-top {
-    max-height: 300px;
+.img-box {
+    align-self: center;
+    height: 300px;
     padding: 5%;
+}
+
+img.card-img-top {
+    display: block;
+    height: 100%;
+    width: auto;
 }
 
 h5.card-title, h6.card-subtitle, p.card-text {
@@ -83,7 +91,7 @@ p.card-text {
 
 /* ########## Folder buttons, username and itemname ########## */
 
-#list-group-profile, #username, #item-name {
+#list-group-profile {
     width:33.3%;
     text-align:center;
     margin-left: auto;
@@ -91,14 +99,14 @@ p.card-text {
 }
 
 
-/* ########## Page page layout ########## */
+/* ########## General page layout ########## */
 
 #page {
     padding-left: 20%;
     padding-right: 20%;
 }
 
-#list-group-page {
+#list-group-page, #about {
     width:50%;
     text-align:center;
     margin-left: auto;
@@ -108,7 +116,7 @@ p.card-text {
 
 /* ########## About page layout ########## */
 
-#about {
+.title {
     text-align:center;
     margin-left: auto;
     margin-right: auto;

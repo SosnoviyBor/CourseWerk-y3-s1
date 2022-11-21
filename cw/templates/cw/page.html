@@ -5,7 +5,7 @@
 
 {% block content %}
 <content id="page">
-    <h1 id="item-name">{{ page.head }}</h1>
+    <h1 class="title">{{ page.head }}</h1>
     {% if user.is_authenticated %}
 
     {% csrf_token %}
@@ -33,7 +33,7 @@
     <br>
     <p class="item-desc">{{ page.desc }}</p>
     <hr class="mt-0 mr-4"></ht>
-    <p class="item-data">{{ page.data }}</p>
+    <p class="item-data">{{ page.data|linebreaks }}</p>
     <hr class="mt-0 mr-4"></ht>
     <p class="item-author"><i>Author: {{ page.author }}</i></p>
     <p class="item-date-created"><i>{{ page.date_created }}</i></p>

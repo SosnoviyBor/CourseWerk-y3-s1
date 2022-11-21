@@ -1,7 +1,7 @@
 // Створення POST запиту для зміни категорії нинішньої сторінки
 const allLgi = document.getElementsByClassName("list-group-item")
 const statusIds = {
-    "none": "none",
+    "none": "None",
     "active": "0",
     "planned": "1",
     "done": "2"
@@ -12,6 +12,7 @@ Array.from(allLgi).forEach((lgi) => {
     const currActive = document.getElementsByClassName("list-group")[0].dataset.active
     if (currActive === statusIds[lgi.id]) {
         lgi.classList.add("active")
+        return
     }
 })
 
