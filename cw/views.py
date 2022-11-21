@@ -1,28 +1,28 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-from .consts import *
 from .forms import *
 from .models import *
+from .utils import *
 
 # Create your views here.
 
 def home(req):
+    query = ""
     pages = Page.objects.all()
-    if query := req.GET.get("search"):
+    if req.GET.get("search"):
+        # Користувач використав пошук
+        query = req.GET.get("search")
         pages = pages.filter(head__icontains=query, desc__icontains=query)
-    folders = Folder.objects
-    ctx = []
-    for page in pages:
-        try:
-            status_id = folders.filter(user=req.user).get(page=page).status
-        except:
-            status_id = None
-        ctx.append((page, status_id, STATUS_TEXT[status_id]))
-    return render(req, "cw/home.html", {"ctx":ctx})
+
+    cards = cards_ctx(req, pages)
+    return render(req, "cw/home.html", {"cards":cards, "search":query})
 
 def about(req):
     return render(req, "cw/about.html", {})
+
+def suggestions(req):
+    return render(req, "cw/suggestions.html", {})
 
 def register(req):
     if req.method == "POST":
@@ -68,5 +68,5 @@ def page(req, id):
     return render(req, "cw/page.html", {"page":page, "status":status})
 
 def profile(req):
-    folders = Folder.objects.filter(user=req.user.id)
-    return render(req, "cw/profile.html", {"folders":folders})
+    cards = cards_ctx(req, Page.objects.all())
+    return render(req, "cw/profile.html", {"cards":cards})

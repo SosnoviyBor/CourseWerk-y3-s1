@@ -8,22 +8,12 @@
 {% endblock  %}
 
 {% block content %}
+<h1 class="title">Home</h1>
+<h4 class="title">{{ search }}</h3>
 <content class="card-list">
-    {% for page, status_id, status in ctx %}
+    {% for page, status_id, status in cards %}
 
-    <div class="card card-status-{{ status_id }}" id="{{ page.id }}">
-        <img src="{{ page.img }}" class="card-img-top" alt="{{ page.id }}">
-        <div class="card-body">
-            <h5 class="card-title"><b>{{ page.head }}</b></h5>
-            {% if user.is_authenticated and status_id != None %}
-                {% csrf_token %}
-                <h6 class="card-subtitle sub-status-{{ status_id }}">
-                    <b>{{ status }}</b>
-                </h6>
-            {% endif %}
-            <p class="card-text">{{ page.desc }}</p>
-        </div>
-    </div>
+    {% include "cw/card_template.html" %}
 
     {% endfor %}
 </content>

@@ -13,7 +13,7 @@
 {% if user.is_authenticated %}
 
 {% comment %} Варіант сторінки для залогінених користувачів {% endcomment %}
-<h2 id="username">{{user.username}}</h2>
+<h1 class="title">{{user.username}}</h2>
 {% comment %} Кнопки для перегляду різних папок {% endcomment %}
 <div class="list-group list-group-horizontal" id="list-group-profile">
     <button type="button" class="list-group-item list-group-item-action flex-fill active"
@@ -36,55 +36,28 @@
 {% comment %} За раз буде відображатися лише 1 div з цих трьох {% endcomment %}
 {% comment %} По дефолту початковий стан - це "Активні теми" {% endcomment %}
 <div class="card-list" id="active">
-    {% for folder in folders.all %}
-        {% if folder.status == 0 %}
+    {% for page, status_id, status in cards %}
+        {% if status_id == 0 %}
 
-        <div class="card card-status-{{ folder.status }}" id="{{ folder.page.id }}">
-            <img src="{{ folder.page.img }}" class="card-img-top" alt="{{ folder.page.id }}">
-            <div class="card-body">
-                <h5 class="card-title"><b>{{ folder.page.head }}</b></h5>
-                <h6 class="card-subtitle sub-status-{{ folder.status }}">
-                    <b>Активно</b>
-                </h6>
-                <p class="card-text">{{ folder.page.desc }}</p>
-            </div>
-        </div>
+        {% include "cw/card_template.html" %}
 
         {% endif %}
     {% endfor %}
 </div>
 <div class="card-list" id="planned">
-    {% for folder in folders.all %}
-        {% if folder.status == 1 %}
+    {% for page, status_id, status in cards %}
+        {% if status_id == 1 %}
 
-        <div class="card card-status-{{ folder.status }}" id="{{ folder.page.id }}">
-            <img src="{{ folder.page.img }}" class="card-img-top" alt="{{ folder.page.id }}">
-            <div class="card-body">
-                <h5 class="card-title"><b>{{ folder.page.head }}</b></h5>
-                <h6 class="card-subtitle sub-status-{{ folder.status }}">
-                    <b>Заплановано</b>
-                </h6>
-                <p class="card-text">{{ folder.page.desc }}</p>
-            </div>
-        </div>
+        {% include "cw/card_template.html" %}
 
         {% endif %}
     {% endfor %}
 </div>
 <div class="card-list" id="done">
-    {% for folder in folders.all %}
-        {% if folder.status == 2 %}
+    {% for page, status_id, status in cards %}
+        {% if status_id == 2 %}
 
-        <div class="card card-status-{{ folder.status }}" id="{{ folder.page.id }}">
-            <img src="{{ folder.page.img }}" class="card-img-top" alt="{{ folder.page.id }}">
-            <div class="card-body">
-                <h5 class="card-title"><b>{{ folder.page.head }}</b></h5>
-                <h6 class="card-subtitle sub-status-{{ folder.status }}">
-                    <b>Пройдено</b>
-                </h6>
-                <p class="card-text">{{ folder.page.desc }}</p>
-            </div>
-        </div>
+        {% include "cw/card_template.html" %}
 
         {% endif %}
     {% endfor %}

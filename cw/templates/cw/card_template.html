@@ -1,0 +1,22 @@
+{% comment %}
+
+Для роботи цього темплейту, треба передати до сторінки результат функції card_ctx() та пропарсити її наступним чином:
+{% for page, status_id, status in cards %}
+
+{% endcomment %}
+
+<div class="card card-status-{{ status_id }}" id="{{ page.id }}">
+    <div class="img-box">
+        <img src="{{ page.img }}" class="card-img-top" alt="{{ page.head }}">
+    </div>
+    <div class="card-body">
+        <h5 class="card-title"><b>{{ page.head }}</b></h5>
+        {% if user.is_authenticated and status_id != None %}
+            {% csrf_token %}
+            <h6 class="card-subtitle sub-status-{{ status_id }}">
+                <b>{{ status }}</b>
+            </h6>
+        {% endif %}
+        <p class="card-text">{{ page.desc }}</p>
+    </div>
+</div>
