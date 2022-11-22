@@ -2,6 +2,6 @@
 const cards = Array.from(document.getElementsByClassName("card"))
 cards.forEach(card => {
     card.addEventListener("click", () => {
-        window.location = `/page/${card.id}`
+        card.querySelector(".link-provider").href = `/page/${card.id}`
     })
 })
