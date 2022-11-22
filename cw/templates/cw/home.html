@@ -4,8 +4,8 @@
 {% block title %}GitGud{% endblock %}
 
 {% block content %}
-<h1 class="title">Home</h1>
-<h4 class="title">{{ search }}</h3>
+<h1 class="centered">Home</h1>
+<h4 class="centered">{{ search }}</h3>
 <content class="card-list">
     {% for page, status_id, status in cards %}
 
@@ -17,4 +17,5 @@
 
 {% block custom_static %}
 <script type="text/javascript" src='{% static "cw/home.js" %}'></script>
+<script type="text/javascript" src='{% static "cw/card.js" %}'></script>
 {% endblock %}

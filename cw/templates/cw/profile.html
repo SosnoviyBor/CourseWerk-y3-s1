@@ -13,7 +13,7 @@
 {% if user.is_authenticated %}
 
 {% comment %} Варіант сторінки для залогінених користувачів {% endcomment %}
-<h1 class="title">{{user.username}}</h2>
+<h1 class="centered">{{user.username}}</h2>
 {% comment %} Кнопки для перегляду різних папок {% endcomment %}
 <div class="list-group list-group-horizontal" id="list-group-profile">
     <button type="button" class="list-group-item list-group-item-action flex-fill active"
@@ -78,6 +78,7 @@
 {% block custom_static %}
 {% if user.is_authenticated %}
 
+<script type="text/javascript" src='{% static "cw/card.js" %}'></script>
 <script type="text/javascript" src='{% static "cw/profile.js" %}'></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
 

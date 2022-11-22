@@ -5,6 +5,7 @@
 
 Також, для коректної роботи переходу на сторінки карток, треба додати наступний скрипт до сторінки
 <script type="text/javascript" src='{% static "cw/card.js" %}'></script>
+Він має виконуватись перед іншими скриптами, що взаємодіють із картками
 
 {% endcomment %}
 
@@ -16,7 +17,7 @@
         <h5 class="card-title"><b>{{ page.head }}</b></h5>
         {% if user.is_authenticated and status_id != None %}
             {% csrf_token %}
-            <h6 class="card-subtitle sub-status-{{ status_id }}">
+            <h6 class="card-subtitle status-{{ status_id }}">
                 <b>{{ status }}</b>
             </h6>
         {% endif %}
