@@ -1,0 +1,39 @@
+{% extends 'cw/base.html' %}
+{% load static %}
+
+{% block title %}Статистика{% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+
+<h1 class="centered">Статистика</h1>
+<content class="stats">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Назва</th>
+                <th scope="col" class="centered">Активних</th>
+                <th scope="col" class="centered">Заполанованих</th>
+                <th scope="col" class="centered">Пройдених</th>
+            </tr>
+
+            <tbody>
+                {% for name, active, planned, done in stats %}
+                <tr>
+                    <th scope="row">{{ name }}
+                    <td class="centered">{{ active }}</td>
+                    <td class="centered">{{ planned }}</td>
+                    <td class="centered">{{ done }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </thead>
+    </table>
+
+{% endif %}
+</content>
+{% endblock %}
+
+{% block custom_static %}
+<script type="text/javascript" src='{% static "cw/card.js" %}'></script>
+{% endblock  %}

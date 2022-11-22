@@ -50,10 +50,13 @@
 
             {% comment %} Кнопки після вікна пошуку {% endcomment %}
             <div class="navbar-nav">
+                {% comment %} Кнопки, що видні лише авторизованим користувачам {% endcomment %}
                 {% if user.is_authenticated %}
                     <a class="nav-link" href="/profile/">{{user.username}}</a>
+                    {% comment %} Кнопки, що видні лише адміністраторам {% endcomment %}
                     {% if user.is_superuser %}
                         <a class="nav-link" href="/admin/">Дешборд</a>
+                        <a class="nav-link" href="/stats/">Статистика</a>
                     {% endif %}
                     <a class="nav-link" href="/logout/">Вийти</a>
                 {% else %}

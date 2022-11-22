@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Count
 from .forms import *
 from .models import *
 from .utils import *
@@ -20,6 +21,24 @@ def home(req):
 
 def about(req):
     return render(req, "cw/about.html", {})
+
+def stats(req):
+    stats = []  # [page, active, planned, done]
+    pages = Page.objects.all()
+    raw = Folder.objects.all().values("page", "status").annotate(total=Count("status")).order_by("page").all()
+    for page in pages:              # Ітеруємо усі існуючі теми/сторінки
+        tmp = [page.head]
+        for i in range(3):          # Допоміжна змінна для парсу усіх статусів по черзі
+            count_was_added = False
+            for data in raw:        # Ітеруємо усі словники із даними, щоб перевірити, чи є дані по нашій сторінці чи ні
+                if data["page"] == page.id and data["status"] == i: # <-- Чомусть тут (page.id) VS Code каже, що э помилка
+                    tmp.append(data["total"])                       # При тому, що все працює як і потрібно...
+                    count_was_added = True
+                    break
+            if not count_was_added:
+                tmp.append(0)   # Теж фантомна помилка у VS Code
+        stats.append(tmp)
+    return render(req, "cw/stats.html", {"stats": stats})
 
 def suggestions(req):
     cards = cards_ctx(req, Page.objects.all())
