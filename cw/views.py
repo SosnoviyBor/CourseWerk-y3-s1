@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
+import operator
 from .forms import *
 from .models import *
 from .utils import *
@@ -38,11 +39,47 @@ def stats(req):
             if not count_was_added:
                 tmp.append(0)   # Теж фантомна помилка у VS Code
         stats.append(tmp)
-    return render(req, "cw/stats.html", {"stats": stats})
+    usercount = len(User.objects.all())
+    return render(req, "cw/stats.html", {"stats": stats, "usercount":usercount})
 
 def suggestions(req):
-    cards = cards_ctx(req, Page.objects.all())
-    msg = "r u logged in?"
+    if (not req.user.is_authenticated
+            or not Folder.objects.filter(user=req.user, status=2).exists()):
+        # Користувач не має папок для генерації рекомендацій
+        # Тому ми даємо йому такий собі "набір початківця"
+        top_ids = [4,5,6,20]
+        # 4 - ООП
+        # 5 - SQL
+        # 6 - Git
+        # 20 - Linux
+        if req.user.is_authenticated:
+            msg = "Оскільки у Вас нема жодних тем у 'Пройдених', \
+                   ми підготували Вам набір для початку своєї мандрівки у світ ІТ-технологій"
+        else:
+            msg = "Оскільки ви не зареєстровані, ми не можемо згенерувати рекомендації саме для Вас"
+    else:
+        msg = ""
+        all_ids = {}
+        folders = Folder.objects.filter(user=req.user)
+
+        # Рахуємо загальну вигідність кожної сторінки
+        for relation in PageRelation.objects.all():
+            if (folders.filter(page=relation.comes_after, status=2).exists()
+                    and not folders.filter(page=relation.which, status=2).exists()):
+                if not relation.which.id in all_ids.keys():         # Більше фантомних помилок!
+                    all_ids[relation.which.id] = relation.strength
+                else:
+                    all_ids[relation.which.id] += relation.strength
+        # Отримуємо 4 найоптимальніші варіанти
+        top_pages = sorted(all_ids.items(), key=operator.itemgetter(1), reverse=True)[:4]
+        top_ids = [i[0] for i in top_pages]
+
+    # І замість звичайного фільтру по масиву, дістаємо сторінки поштучно, аби зберегти їх порядок
+    # Інакше вони будуть відсортовані по айдішці
+    pages = []
+    for id in top_ids:
+        pages.append(Page.objects.get(id=id))
+    cards = cards_ctx(req, pages)
     return render(req, "cw/suggestions.html", {"cards":cards, "msg":msg})
 
 def register(req):
