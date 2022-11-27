@@ -4,7 +4,4 @@ password: gfhjkm
 
 ## normal users ##
 username: one
-password:
-
-username: two
-password:
+password: 27pjAFUq%*1A
