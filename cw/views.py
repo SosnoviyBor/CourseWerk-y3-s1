@@ -20,27 +20,42 @@ def home(req):
     cards = cards_ctx(req, pages)
     return render(req, "cw/home.html", {"cards":cards, "search":query})
 
-def about(req):
-    return render(req, "cw/about.html", {})
+@csrf_exempt
+def page(req, id):
+    page = Page.objects.get(id=id)
+    if req.method == "POST":
+        action = req.POST.get("action")
+        # Користувач намагається змінити категорію теми
+        if action == "setfolder" and req.user.is_authenticated:
+            status = req.POST.get("value")
+            # Видалення об'єкту
+            if status == "none":
+                Folder.objects.filter(user=req.user, page=page).delete()
+            # Оновлення або створення об'єкту
+            else:
+                # obj - об'єкт, що був створений/оновлений
+                # created - True якщо створений, False якщо оновлений
+                obj, created = Folder.objects.update_or_create(
+                    user=req.user, page=page,
+                    defaults={"status":status}
+                )
+            return HttpResponse(req)
+        else:
+            print("Page view; Recieved POST request with no 'action' param")
 
-def stats(req):
-    stats = []  # [page, active, planned, done]
-    pages = Page.objects.all()
-    raw = Folder.objects.all().values("page", "status").annotate(total=Count("status")).order_by("page").all()
-    for page in pages:              # Ітеруємо усі існуючі теми/сторінки
-        tmp = [page.head]
-        for i in range(3):          # Допоміжна змінна для парсу усіх статусів по черзі
-            count_was_added = False
-            for data in raw:        # Ітеруємо усі словники із даними, щоб перевірити, чи є дані по нашій сторінці чи ні
-                if data["page"] == page.id and data["status"] == i: # <-- Чомусть тут (page.id) VS Code каже, що э помилка
-                    tmp.append(data["total"])                       # При тому, що все працює як і потрібно...
-                    count_was_added = True
-                    break
-            if not count_was_added:
-                tmp.append(0)   # Теж фантомна помилка у VS Code
-        stats.append(tmp)
-    usercount = len(User.objects.all())
-    return render(req, "cw/stats.html", {"stats": stats, "usercount":usercount})
+    # Отримання статусу для відображення на сторінці
+    if (req.user.is_authenticated and Folder.objects.filter(user=req.user, page=page).exists()):
+        # Користувач зареєстрований ТА вже виставив статус цієї сторінки
+        status = Folder.objects.get(user=req.user, page=page).status
+    else:
+        status = None
+
+    # Перелік рекомендованих тем перед проходженням
+    r_cards = []
+    for relation in PageRelation.objects.filter(which=id):
+        r_cards.append(relation.comes_after)
+    recommended = cards_ctx(req, r_cards)
+    return render(req, "cw/page.html", {"page":page, "status":status, "recommended": recommended})
 
 def suggestions(req):
     if (not req.user.is_authenticated
@@ -94,43 +109,28 @@ def register(req):
         form = RegisterForm()
     return render(req, "cw/register.html", {"form":form})
 
-@csrf_exempt
-def page(req, id):
-    page = Page.objects.get(id=id)
-    if req.method == "POST":
-        action = req.POST.get("action")
-        # Користувач намагається змінити категорію теми
-        if action == "setfolder" and req.user.is_authenticated:
-            status = req.POST.get("value")
-            # Видалення об'єкту
-            if status == "none":
-                Folder.objects.filter(user=req.user, page=page).delete()
-            # Оновлення або створення об'єкту
-            else:
-                # obj - об'єкт, що був створений/оновлений
-                # created - True якщо створений, False якщо оновлений
-                obj, created = Folder.objects.update_or_create(
-                    user=req.user, page=page,
-                    defaults={"status":status}
-                )
-            return HttpResponse(req)
-        else:
-            print("Page view; Recieved POST request with no 'action' param")
-
-    # Отримання статусу для відображення на сторінці
-    if (req.user.is_authenticated and Folder.objects.filter(user=req.user, page=page).exists()):
-        # Користувач зареєстрований ТА вже виставив статус цієї сторінки
-        status = Folder.objects.get(user=req.user, page=page).status
-    else:
-        status = None
-
-    # Перелік рекомендованих тем перед проходженням
-    r_cards = []
-    for relation in PageRelation.objects.filter(which=id):
-        r_cards.append(relation.comes_after)
-    recommended = cards_ctx(req, r_cards)
-    return render(req, "cw/page.html", {"page":page, "status":status, "recommended": recommended})
-
 def profile(req):
     cards = cards_ctx(req, Page.objects.all())
     return render(req, "cw/profile.html", {"cards":cards})
+
+def stats(req):
+    stats = []  # [page, active, planned, done]
+    pages = Page.objects.all()
+    raw = Folder.objects.all().values("page", "status").annotate(total=Count("status")).order_by("page").all()
+    for page in pages:              # Ітеруємо усі існуючі теми/сторінки
+        tmp = [page.head]
+        for i in range(3):          # Допоміжна змінна для парсу усіх статусів по черзі
+            count_was_added = False
+            for data in raw:        # Ітеруємо усі словники із даними, щоб перевірити, чи є дані по нашій сторінці чи ні
+                if data["page"] == page.id and data["status"] == i: # <-- Чомусть тут (page.id) VS Code каже, що э помилка
+                    tmp.append(data["total"])                       # При тому, що все працює як і потрібно...
+                    count_was_added = True
+                    break
+            if not count_was_added:
+                tmp.append(0)   # Теж фантомна помилка у VS Code
+        stats.append(tmp)
+    usercount = len(User.objects.all())
+    return render(req, "cw/stats.html", {"stats": stats, "usercount":usercount})
+
+def about(req):
+    return render(req, "cw/about.html", {})
