@@ -123,7 +123,13 @@ def page(req, id):
         status = Folder.objects.get(user=req.user, page=page).status
     else:
         status = None
-    return render(req, "cw/page.html", {"page":page, "status":status})
+
+    # Перелік рекомендованих тем перед проходженням
+    r_cards = []
+    for relation in PageRelation.objects.filter(which=id):
+        r_cards.append(relation.comes_after)
+    recommended = cards_ctx(req, r_cards)
+    return render(req, "cw/page.html", {"page":page, "status":status, "recommended": recommended})
 
 def profile(req):
     cards = cards_ctx(req, Page.objects.all())

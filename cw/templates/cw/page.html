@@ -46,7 +46,24 @@
     <hr class="mt-0 mr-4"></ht>
     <p class="item-author"><i>Author: {{ page.author }}</i></p>
     <p class="item-date-created"><i>{{ page.date_created }}</i></p>
+
+    {% comment %} Згоден, це не дуже красиво, але це найпростіший спосіб і він праціює {% endcomment %}
+    {% if recommended %}
+
+    <hr class="mt-0 mr-4"></ht>
+    <p>Теми, що рекомендовано до проходженя перед цією темою:</p>
 </content>
+<div class="card-list">
+    {% for page, status_id, status in recommended %}
+    {% include "cw/card_template.html" %}
+    {% endfor %}
+</div>
+
+    {% else %}
+
+</content>
+
+    {% endif %}
 {% endblock %}
 
 {% block custom_static %}
@@ -54,5 +71,6 @@
 <script>
     var s = "{{ status|escapejs }}"
 </script>
+<script type="text/javascript" src='{% static "cw/card.js" %}'></script>
 <script type="text/javascript" src='{% static "cw/page.js" %}'></script>
 {% endblock custom_static %}
