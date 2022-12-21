@@ -58,20 +58,21 @@ def page(req, id):
     return render(req, "cw/page.html", {"page":page, "status":status, "recommended": recommended})
 
 def suggestions(req):
-    if (not req.user.is_authenticated
-            or not Folder.objects.filter(user=req.user, status=2).exists()):
-        # Користувач не має папок для генерації рекомендацій
-        # Тому ми даємо йому такий собі "набір початківця"
-        top_ids = [4,5,6,20]
-        # 4 - ООП
-        # 5 - SQL
-        # 6 - Git
-        # 20 - Linux
-        if req.user.is_authenticated:
-            msg = "Оскільки у Вас нема жодних тем у 'Пройдених', \
-                   ми підготували Вам набір для початку своєї мандрівки у світ ІТ-технологій"
-        else:
-            msg = "Оскільки ви не зареєстровані, ми не можемо згенерувати рекомендації саме для Вас"
+    # Набір початківця на випадок, якщо ми не можемо згенерувати власні рекомендації
+    newcomer_bundle = [4,5,6,20]
+    # 4 - ООП
+    # 5 - SQL
+    # 6 - Git
+    # 20 - Linux
+    if not req.user.is_authenticated:
+        # Користувач не аутентифікований
+        top_ids = newcomer_bundle
+        msg = "Оскільки ви не зареєстровані, ми не можемо згенерувати рекомендації саме для Вас"
+    elif not Folder.objects.filter(user=req.user, status=2).exists():
+        # Користувач не має жодних пройдених тем
+        top_ids = newcomer_bundle
+        msg = "Оскільки у Вас нема жодних тем у 'Пройдених', \
+               ми підготували Вам набір для початку своєї мандрівки у світ ІТ-технологій"
     else:
         msg = ""
         all_ids = {}
@@ -88,6 +89,12 @@ def suggestions(req):
         # Отримуємо 4 найоптимальніші варіанти
         top_pages = sorted(all_ids.items(), key=operator.itemgetter(1), reverse=True)[:4]
         top_ids = [i[0] for i in top_pages]
+
+        if len(top_ids) == 0:
+            # Користувач має пройдені теми, але вони не пов'язані з жодною іншою
+            top_ids = newcomer_bundle
+            msg = "Ваші нинішні пройдені теми не пов'язані ні з якими іншими, \
+                   тому ми даємо вам набір початківця"
 
     # І замість звичайного фільтру по масиву, дістаємо сторінки поштучно, аби зберегти їх порядок
     # Інакше вони будуть відсортовані по айдішці
@@ -114,20 +121,25 @@ def profile(req):
     return render(req, "cw/profile.html", {"cards":cards})
 
 def stats(req):
+    # Перевірка на те, чи є користувач адміністратором, абі дарма не гаїти сили ком'ютеру та СУБД
+    if not req.user.is_superuser:
+        return render(req, "cw/stats.html", {})
+
     stats = []  # [page, active, planned, done]
     pages = Page.objects.all()
+    # Аналог SQL-ного GROP BY("page", "status") + COUNT("status")
     raw = Folder.objects.all().values("page", "status").annotate(total=Count("status")).order_by("page").all()
     for page in pages:              # Ітеруємо усі існуючі теми/сторінки
         tmp = [page.head]
         for i in range(3):          # Допоміжна змінна для парсу усіх статусів по черзі
             count_was_added = False
             for data in raw:        # Ітеруємо усі словники із даними, щоб перевірити, чи є дані по нашій сторінці чи ні
-                if data["page"] == page.id and data["status"] == i: # <-- Чомусть тут (page.id) VS Code каже, що э помилка
-                    tmp.append(data["total"])                       # При тому, що все працює як і потрібно...
+                if data["page"] == page.id and data["status"] == i:
+                    tmp.append(data["total"])
                     count_was_added = True
                     break
             if not count_was_added:
-                tmp.append(0)   # Теж фантомна помилка у VS Code
+                tmp.append(0)
         stats.append(tmp)
     usercount = len(User.objects.all())
     return render(req, "cw/stats.html", {"stats": stats, "usercount":usercount})
