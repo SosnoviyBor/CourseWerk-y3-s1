@@ -32,4 +32,5 @@ jobs:
 
     - name: Curl
       uses: wei/curl@v1.1.1
-      args: http://cw.fedyay.net/
+      with:
+        args: http://cw.fedyay.net/
