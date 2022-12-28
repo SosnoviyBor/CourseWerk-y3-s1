@@ -1,4 +1,4 @@
-project/settings.py
+project/secrets.py
 
 # VS Code
 .vscode

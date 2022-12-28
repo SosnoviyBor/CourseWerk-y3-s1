@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from . import secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "cw.fedyay.net",
+    secrets.host,
 ]
 
 
@@ -82,11 +83,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'naame',
-        'USER': 'user',
-        'PASSWORD': 'password',
-        'HOST': 'host',
-        'PORT': 'port',
+        'NAME': secrets.db_info['NAME'],
+        'USER': secrets.db_info['USER'],
+        'PASSWORD': secrets.db_info['PASSWORD'],
+        'HOST': secrets.db_info['HOST'],
+        'PORT': secrets.db_info['PORT'],
     }
 }
 
