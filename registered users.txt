@@ -5,3 +5,6 @@ password: gfhjkm
 ## normal users ##
 username: one
 password: 27pjAFUq%*1A
+
+username: two
+password: 27pjAFUq%*1A

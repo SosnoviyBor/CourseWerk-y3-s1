@@ -1,7 +1,8 @@
 // Створення POST запиту для зміни категорії нинішньої сторінки
 const allLgi = Array.from(document.getElementsByClassName("list-group-item"))
 const statusIds = {
-    "none": "none",
+    // "btnId" : "recievedStatus"
+    "none": "None",
     "active": "0",
     "planned": "1",
     "done": "2"

@@ -29,7 +29,7 @@ def page(req, id):
         if action == "setfolder" and req.user.is_authenticated:
             status = req.POST.get("value")
             # Видалення об'єкту
-            if status == "none":
+            if status == "None":
                 Folder.objects.filter(user=req.user, page=page).delete()
             # Оновлення або створення об'єкту
             else:
