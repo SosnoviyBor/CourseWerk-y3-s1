@@ -5,3 +5,31 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+
+jobs:
+  build:
+    name: Deploy to Oracle
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Update code and reload app
+      uses: cross-the-world/ssh-pipeline@v1.2.0
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        port: ${{ secrets.SSH_PORT }}
+        user: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        pass: ${{ secrets.SSH_PASS }}
+
+        script: |
+          cd /opt/cw-django;
+          sudo git pull;
+          source .venv/bin/activate;
+          sudo pip install -r requirements.txt;
+          sudo systemctl stop cw-django.service
+          sudo systemctl start cw-django.service
+          # check if django started
+
+    - name: Curl
+      uses: wei/curl@v1.1.1
+      args: http://cw.fedyay.net/
