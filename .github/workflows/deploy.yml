@@ -31,6 +31,6 @@ jobs:
           sudo systemctl status cw-django
 
     - name: Curl
-      uses: wei/curl@v1.1.1
+      uses: enflo/curl-action@v1.2
       with:
-        args: http://cw.fedyay.net/
+        curl: http://cw.fedyay.net/
