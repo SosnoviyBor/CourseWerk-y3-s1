@@ -21,13 +21,14 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         pass: ${{ secrets.SSH_PASS }}
 
-        script: cd /opt/cw-django
-        script: sudo git pull
-        script: source .venv/bin/activate
-        script: sudo pip install -r requirements.txt
-        script: sudo systemctl stop cw-django
-        script: sudo systemctl start cw-django
-        script: sudo systemctl status cw-django
+        script: |
+          cd /opt/cw-django;
+          sudo git pull;
+          source .venv/bin/activate;
+          sudo pip install -r requirements.txt;
+          sudo systemctl stop cw-django;
+          sudo systemctl start cw-django;
+          sudo systemctl status cw-django;
 
     - name: Curl
       uses: wei/curl@v1.1.1
