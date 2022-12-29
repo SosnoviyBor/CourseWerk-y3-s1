@@ -26,9 +26,9 @@ jobs:
           sudo git pull;
           source .venv/bin/activate;
           sudo pip install -r requirements.txt;
-          sudo systemctl stop cw-django.service
-          sudo systemctl start cw-django.service
-          # check if django started
+          sudo systemctl stop cw-django.service;
+          sudo systemctl start cw-django.service;
+          sudo systemctl status cw-django.service;
 
     - name: Curl
       uses: wei/curl@v1.1.1
