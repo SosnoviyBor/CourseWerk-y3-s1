@@ -1,0 +1,11 @@
+[Unit]
+Description=Course work Django runner
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/opt/cw-django
+ExecStart=python3 manage.py runserver
+
+[Install]
+WantedBy=multi-user.target

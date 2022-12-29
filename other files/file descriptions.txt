@@ -1,0 +1,3 @@
+systemctl_cw.service -> /etc/systemd/system/
+
+nginx_cw.conf -> /etc/nginx/sites-available/
