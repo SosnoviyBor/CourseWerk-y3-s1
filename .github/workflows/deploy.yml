@@ -28,6 +28,7 @@ jobs:
           sudo pip install -r requirements.txt;
           sudo systemctl stop cw-django;
           sudo systemctl start cw-django;
+          sudo systemctl status cw-django;he
 
     - name: Curl
       uses: wei/curl@v1.1.1
